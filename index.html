@@ -1,1 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Tracker Nepal - Never Miss a Renewal Date</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #005203;
+            --primary-light: #007304;
+            --primary-dark: #003501;
+            --accent: #00a806;
+            --bg-light: #f8fdf8;
+            --text-dark: #1a1a1a;
+            --text-light: #666;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .mobile-menu span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #e8f5e8 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0,82,3,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-content .highlight {
+            color: var(--accent);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,82,3,0.2);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .hero-image {
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .phone-mockup {
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            border-radius: 40px;
+            padding: 15px;
+            box-shadow: 0 20px 60px rgba(0,82,3,0.3);
+            position: relative;
+        }
+
+        .phone-screen {
+            background: var(--white);
+            border-radius: 30px;
+            padding: 2rem 1.5rem;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .mock-card {
+            background: var(--bg-light);
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 1rem;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .mock-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .mock-title {
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .mock-badge {
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Problem Section */
+        .problem-section {
+            padding: 5rem 2rem;
+            background: var(--white);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .problem-card {
+            background: var(--bg-light);
+            border-left: 4px solid var(--primary);
+            padding: 2rem;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,82,3,0.1);
+        }
+
+        .problem-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .problem-card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 5rem 2rem;
+            background: var(--bg-light);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,82,3,0.15);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 5rem 2rem;
+            background: var(--white);
+        }
+
+        .steps-container {
+            max-width: 900px;
+            margin: 3rem auto;
+        }
+
+        .step {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .step::after {
+            content: '';
+            position: absolute;
+            left: 40px;
+            top: 80px;
+            width: 2px;
+            height: calc(100% + 2rem);
+            background: linear-gradient(to bottom, var(--primary), transparent);
+        }
+
+        .step:last-child::after {
+            display: none;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(0,82,3,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-content {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid var(--primary);
+        }
+
+        .step-content h3 {
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            color: var(--text-light);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .store-badges {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .store-badge {
+            background: var(--white);
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .store-badge:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+        }
+
+        .store-icon {
+            font-size: 2rem;
+        }
+        /* Contact Section */
+        .contact-section {
+            padding: 5rem 2rem;
+            background: var(--white);
+            text-align: center;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 3rem 2rem 1rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-image {
+                order: -1;
+            }
+
+            .phone-mockup {
+                max-width: 280px;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .step {
+                grid-template-columns: 60px 1fr;
+                gap: 1rem;
+            }
+
+            .step-number {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .step::after {
+                left: 30px;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">🚗</div>
+                <span>Insurance Tracker</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#download">Download</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content fade-in">
+                <h1>Never Miss Your <span class="highlight">Vehicle Insurance</span> Renewal Again</h1>
+                <p>Track all your vehicle documents, get timely reminders, and avoid penalty charges. Perfect for managing multiple vehicles across your family.</p>
+                <div class="cta-buttons">
+                    <a href="#download" class="btn btn-primary">
+                        <span>📱</span>
+                        Download Now
+                    </a>
+                    <a href="#features" class="btn btn-secondary">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div class="mock-card">
+                            <div class="mock-header">
+                                <span class="mock-title">🚙 BA 1 KHA 1234</span>
+                                <span class="mock-badge">15 Days</span>
+                            </div>
+                            <p style="font-size: 0.9rem; color: #666;">Insurance expires: Feb 24, 2026</p>
+                        </div>
+                        <div class="mock-card">
+                            <div class="mock-header">
+                                <span class="mock-title">🏍️ BA 12 PA 5678</span>
+                                <span class="mock-badge" style="background: #ff6b6b;">7 Days</span>
+                            </div>
+                            <p style="font-size: 0.9rem; color: #666;">Bluebook expires: Feb 16, 2026</p>
+                        </div>
+                        <div class="mock-card">
+                            <div class="mock-header">
+                                <span class="mock-title">🚗 BA 2 CHA 9012</span>
+                                <span class="mock-badge" style="background: #51cf66;">45 Days</span>
+                            </div>
+                            <p style="font-size: 0.9rem; color: #666;">All documents valid</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section">
+        <div class="section-container">
+            <div class="section-header scroll-reveal">
+                <h2>The Problem We Solve</h2>
+                <p>Managing vehicle documents in Nepal shouldn't be stressful or costly</p>
+            </div>
+            <div class="problem-grid">
+                <div class="problem-card scroll-reveal">
+                    <div class="problem-icon">⏰</div>
+                    <h3>Forgotten Renewal Dates</h3>
+                    <p>People often forget insurance and bluebook renewal dates, leading to expired documents without realizing it.</p>
+                </div>
+                <div class="problem-card scroll-reveal">
+                    <div class="problem-icon">💸</div>
+                    <h3>Extra Penalty Charges</h3>
+                    <p>Late renewals result in unnecessary penalty fees that could have been easily avoided with timely reminders.</p>
+                </div>
+                <div class="problem-card scroll-reveal">
+                    <div class="problem-icon">🚗</div>
+                    <h3>Multiple Vehicles Chaos</h3>
+                    <p>Managing documents for multiple family vehicles becomes overwhelming without a centralized tracking system.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="section-container">
+            <div class="section-header scroll-reveal">
+                <h2>Powerful Features</h2>
+                <p>Everything you need to manage your vehicle documents efficiently</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">📝</div>
+                    <h3>Complete Vehicle Tracking</h3>
+                    <p>Add detailed vehicle information including plate number, engine details, documents, and renewal dates all in one place.</p>
+                </div>
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">👨‍👩‍👧‍👦</div>
+                    <h3>Family Management</h3>
+                    <p>Add family members via QR code and manage all family vehicles from a single account. Easy transfer between family members.</p>
+                </div>
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">📊</div>
+                    <h3>Collaboration with insurance companies</h3>
+                    <p>Work directly with insurance providers to streamline document verification and renewal processes.</p>
+                </div>
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">📊</div>
+                    <h3>Status Dashboard</h3>
+                    <p>Track insurance and bluebook renewal status for each vehicle at a glance with color-coded indicators.</p>
+                </div>
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">🔔</div>
+                    <h3>Smart Notifications</h3>
+                    <p>Receive timely reminders before documents expire. Configure reminder dates according to your preference.</p>
+                </div>
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">📱</div>
+                    <h3>Document Storage</h3>
+                    <p>Store digital copies of all important vehicle documents securely within the app for easy access.</p>
+                </div>
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Data Transfer</h3>
+                    <p>Seamlessly transfer vehicle data between family members without losing any information.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="section-container">
+            <div class="section-header scroll-reveal">
+                <h2>How It Works</h2>
+                <p>Get started in minutes with our simple setup process</p>
+            </div>
+            <div class="steps-container">
+                <div class="step scroll-reveal">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Download & Sign In</h3>
+                        <p>Download the app from Play Store or App Store and sign in using your Google account for quick access.</p>
+                    </div>
+                </div>
+                <div class="step scroll-reveal">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Add Your Vehicles</h3>
+                        <p>Navigate to the vehicles page, click the add button, select a family member, and enter vehicle details including plate number, engine info, and renewal dates.</p>
+                    </div>
+                </div>
+                <div class="step scroll-reveal">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Add Family Members</h3>
+                        <p>Go to the family screen, click the plus button, add members, and share QR codes for easy family vehicle management.</p>
+                    </div>
+                </div>
+                <div class="step scroll-reveal">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Configure Reminders</h3>
+                        <p>Set up your notification preferences from the reminders page to receive alerts at your preferred time before expiry.</p>
+                    </div>
+                </div>
+                <div class="step scroll-reveal">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>Stay Informed</h3>
+                        <p>Relax and let the app notify you about upcoming renewals. Manage and edit your profile anytime from the profile page.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- download Section -->
+    <section class="cta-section" id="download">
+        <div class="section-container">
+            <h2>Ready to Stop Worrying About Renewals?</h2>
+            <p>Download Insurance Tracker now and never pay penalty charges again</p>
+            <div class="store-badges">
+                <a href="#" class="store-badge">
+                    <span class="store-icon">📱</span>
+                    <div>
+                        <div style="font-size: 0.8rem; opacity: 0.7;">Download on</div>
+                        <div>Google Play</div>
+                    </div>
+                </a>
+                <a href="#" class="store-badge">
+                    <span class="store-icon">🍎</span>
+                    <div>
+                        <div style="font-size: 0.8rem; opacity: 0.7;">Download on</div>
+                        <div>App Store</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!--contact section-->
+    <section class="contact-section" id="contact">
+        <div class="section-container">
+            <div class="section-header scroll-reveal">
+                <h2>Contact Us</h2>
+                <p>Have questions or need support? We're here to help!</p>
+            </div>
+            <div style="max-width: 600px; margin: 0 auto; text-align: center;" class="scroll-reveal">
+                <p style="margin-bottom: 1rem;">Email: <a href="mailto:support@insurancetracker.com">support@insurancetracker.com</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#support">Support</a>
+                <a href="#contact">Contact Us</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Insurance Tracker Nepal. All rights reserved.</p>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem;">Made for Nepali vehicle owners 🇳🇵</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-reveal').forEach(element => {
+            observer.observe(element);
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Phone mockup animation
+        const mockCards = document.querySelectorAll('.mock-card');
+        let cardIndex = 0;
+        
+        setInterval(() => {
+            mockCards.forEach((card, index) => {
+                card.style.animation = 'none';
+                setTimeout(() => {
+                    card.style.animation = 'slideIn 0.5s ease-out';
+                }, index * 100);
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
 
